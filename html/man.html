@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery Man App</title>
+    <link rel="stylesheet" href="/static/css/man.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+    <div class="background-image"></div>
+    <div class="container">
+        <div class="sidebar">
+            <h1>Welcome, {{ first_name }} {{ last_name }}</h1>            
+            <h2>Order Details</h2>
+            <button id="show-all-button"><h1>Show all</h1></button>
+            {% for order in orders %}
+            <div class="order">
+                <p>Unique ID: <span>{{ order.order_id }}</span></p>
+                <p>Customer Name: <span>{{ order.user.first_name }} {{ order.user.last_name }}</span></p>
+                <p>Delivery Address: <span>{{ order.location.address }}</span></p>
+                <p>Restaurant: <span>{{ order.restaurant.name }}</span></p>
+                <p>User Location: <span>{{ order.restaurant.area }}</span></p>
+
+
+                <p>Order Time: <span>{{ order.order_time }}</span></p>
+                <p>Total Bill: <span>{{ order.total_bill }}</span></p>
+                <p>VAT: <span>{{ order.vat }}</span></p>
+                <p>Total Price with VAT: <span>{{ order.total_price_with_vat }}</span></p>
+                <p>Discount :  $100 </p>
+                <p> subtotal : <span> {{order.subtotal}}</span></p>
+
+                <p>Ordered Items:</p>
+                <ul>
+                    {% for order_item in order.orderitem_set.all %}
+                    <li>{{ order_item.food_item.name }} - Quantity: {{ order_item.quantity }}</li>
+                    {% endfor %}
+                </ul>
+                <button class="accept-order-btn" data-order-id="{{ order.order_id }}">Accept Order</button>
+                <button class="reject-order-btn">Reject Order</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#show-all-button').click(function() {
+                var username = '{{ request.user.username }}';  // Get the username from the template
+                window.location.href = '/show_all_orders/' + username + '/';
+            });
+    
+            $('.accept-order-btn').click(function() {
+                var orderId = $(this).data('order-id');
+                var button = $(this);  // Store reference to the button clicked
+    
+                $.ajax({
+                    url: '{% url "accept_order" %}',
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'order_id': orderId
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Order accepted successfully!');
+                            button.closest('.order').remove();  // Remove the order element from the page
+                        } else {
+                            alert('Failed to accept order.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    
+    
+</body>
+</html>

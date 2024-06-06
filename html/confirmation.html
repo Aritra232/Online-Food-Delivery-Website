@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="/static/css/confirm.css">
+</head>
+<body>
+    <div class="confirmation-container">
+        <div id="confirmation">
+            <h1 class="blink" id="confirmationText">
+                {% if accepted %}
+                    HERE YOU GO
+                {% else %}
+                    Waiting for a delivery man to accept your order...
+                {% endif %}
+            </h1>
+            <div class="bike-animation" style="display:none;"></div>
+            <div class="handover-animation" style="display:none;"></div>
+            <div class="food-preparing-animation" style="display:none;"></div>
+        </div>
+        <div id="orderDetails" {% if not accepted %}style="display:none;"{% endif %}>
+            <h2>Your Order Was Confirmed</h2>
+            <p>Order ID: {{ order.order_id }}</p>
+            <p>Food Delivery Time: <span id="deliveryTime">20:00</span></p>
+            <p>Delivery Man Name: <span id="deliveryManName">{{ delivery_man.username }}</span></p>
+            <p>Delivery Man Contact: <span id="deliveryManContact">{{ delivery_man_phone }}</span></p>
+            <p>Restaurant Name: <span id="restaurantName">{{ order.restaurant.name }}</span></p>
+            <h3>Order Summary and Payment Details</h3>
+            <ul id="orderItems">
+                {% for order_item in order_items %}
+                    <li>{{ order_item.food_item.name }} - Quantity: {{ order_item.quantity }}</li>
+                {% endfor %}
+            </ul>
+            <p>Total Price: ${{ order.total_bill }}</p>
+            <p>Delivery Price: $60</p>
+            <p>VAT: ${{ order.vat }}</p>
+            
+            <p>Total Price with VAT: ${{ order.total_price_with_vat }}</p>
+            <p>Discount :  $100 </p>
+            <p> subtotal :  ${{order.subtotal}} </p>
+        </div>
+    </div>
+
+    {% if not accepted %}
+        <script>
+            function checkOrderStatus() {
+                fetch("{% url 'check_order_status' order_id=order.order_id %}")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.accepted) {
+                            document.getElementById('confirmationText').textContent = "A delivery man has accepted your order!";
+                            document.getElementById('orderDetails').style.display = "block";
+                            location.reload();
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            setInterval(checkOrderStatus, 5000); // Check every 5 seconds
+        </script>
+    {% else %}
+        <script>
+            var deliveryTimeElement = document.getElementById('deliveryTime');
+            var deliveryTimeLeft = 600;
+
+            setInterval(function () {
+                var minutes = Math.floor(deliveryTimeLeft / 60);
+                var seconds = deliveryTimeLeft % 60;
+                deliveryTimeElement.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                deliveryTimeLeft--;
+
+                if (deliveryTimeLeft >= 300 && deliveryTimeLeft <= 590) {
+                    document.getElementById('confirmationText').textContent = "Your food is being prepared...";
+                    document.querySelector('.food-preparing-animation').style.display = "block";
+                    document.querySelector('.bike-animation').style.display = "none";
+                    document.querySelector('.handover-animation').style.display = "none";
+                } else if (deliveryTimeLeft >= 15 && deliveryTimeLeft <= 300) {
+                    document.getElementById('confirmationText').textContent =  "Your delivery man has collected the food and will be delivering soon";
+                    document.querySelector('.bike-animation').style.display = "block";
+                    document.querySelector('.food-preparing-animation').style.display = "none";
+                } else if (deliveryTimeLeft >= 0 && deliveryTimeLeft <= 15) {
+                    document.getElementById('confirmationText').textContent = "FOOD DELIVERED SUCCESSFULLY";
+                    document.querySelector('.handover-animation').style.display = "block";
+                    document.querySelector('.bike-animation').style.display = "none";
+                    document.querySelector('.food-preparing-animation').style.display = "none";
+                }
+
+                if (deliveryTimeLeft <= 0) {
+                    clearInterval();
+                }
+            }, 1000);
+        </script>
+    {% endif %}
+</body>
+</html>

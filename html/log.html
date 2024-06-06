@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/s.css">
+</head>
+<body>
+    <!-- Background image -->
+    <div class="background-image"></div>
+    
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm" class="login" method="POST">
+            {% csrf_token %}
+            <div class="field">
+                <input type="text" id="username" name="username" placeholder="Enter User Name" required>
+            </div>
+            <div class="field">
+                <input type="tel" id="phoneNumber" name="phone_number" placeholder="Phone Number" required>
+            </div>
+            <div class="field btn">
+                <input type="submit" value="Login">
+            </div>
+        </form>
+        <div class="signup-link">
+         Not a member? <a href="{% url 'sign'%}">Signup now</a>
+      </div>
+    </div>
+
+   </body>
+</html>

@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ restaurant.name }}</title>
+    <link rel="stylesheet" href="/static/css/food_item.css">
+</head>
+<body>
+  
+        <marquee>Welcome to BhromonGhuri Food Delivery App | 10% Discount for creating an account and logging in | *** Get 100 TAKA off "Valid until 15th June" </marquee>
+    
+    <div class="content">
+        
+            <h1>{{ restaurant.name }}</h1>
+            <img src="{{ restaurant.picture.url }}" alt="{{ restaurant.name }}" style="width:100px; height:auto;">
+            <p>Rating: {{ restaurant.rating }}</p>
+            <p>Criteria: {{ restaurant.criteria }}</p>
+    
+
+        <h2>Food Items</h2>
+        <form method="POST" action="{% url 'order_summary' %}">
+            {% csrf_token %}
+            <input type="hidden" name="restaurant_id" value="{{ restaurant.id }}">
+            <div class="food-items">
+                <!-- This is where the food items will be displayed -->
+                {% for food_item in food_items %}
+                    <div class="food-item">
+                        <img src="{{ food_item.picture.url }}" alt="{{ food_item.name }}">
+                        <h3>{{ food_item.name }}</h3>
+                        <p>Price: Rs. {{ food_item.price }}</p>
+                        <p>Ingredients: {{ food_item.ingredients }}</p>
+                        <div class="quantity-controls">
+                            <button type="button" class="decrease-quantity">-</button>
+                            <input type="number" class="quantity" name="quantity_{{ food_item.id }}" value="0" min="0">
+                            <button type="button" class="increase-quantity">+</button>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No food items found for this restaurant.</p>
+                {% endfor %}
+            </div>
+            <button type="submit" class="order-button">Order</button>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="/static/js/restaurant_detail.js"></script>
+</body>
+</html>

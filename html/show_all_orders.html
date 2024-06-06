@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Man's Accepted Orders</title>
+    <link rel="stylesheet" href="/static/css/man.css">
+</head>
+<body>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+    <div class="background-image"></div>
+    <div class="container">
+        <div class="sidebar">
+            <h1>Your Accepted Orders</h1>
+            {% for final_delivery in final_deliveries %}
+            <div class="order">
+                <p>Unique ID: <span>{{ final_delivery.order.order_id }}</span></p>
+                <p>Customer Name: <span>{{ final_delivery.order.user.first_name }} {{ final_delivery.order.user.last_name }}</span></p>
+                <p>Delivery Address: <span>{{ final_delivery.order.location.address }}</span></p>
+                <p>Delivery Area: <span>{{ final_delivery.order.location.area }}</span></p>
+
+                <p>Restaurant: <span>{{ final_delivery.order.restaurant.name }}</span></p>
+                <p>Order Time: <span>{{ final_delivery.order.order_time }}</span></p>
+                <p>Total Bill: <span>{{ final_delivery.order.total_bill }}</span></p>
+                <p>VAT: <span>{{ final_delivery.order.vat }}</span></p>
+                <p>Total Price with VAT: <span>{{ final_delivery.order.total_price_with_vat }}</span></p>
+
+                <p>Discount :  $100 </p>
+                <p>subtotal: <span>{{ final_delivery.order.subtotal }}</span></p>
+                <p>Ordered Items:</p>
+                <ul>
+                    {% for order_item in final_delivery.order.orderitem_set.all %}
+                    <li>{{ order_item.food_item.name }} - Quantity: {{ order_item.quantity }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+    </html>

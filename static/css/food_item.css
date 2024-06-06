@@ -1,0 +1,110 @@
+.background {
+    background-color: #FFD700; /* Set colorful background */
+    padding: 20px;
+}
+
+.content {
+    position: relative;
+    z-index: 1; /* Ensure content is above background */
+}
+
+.transparent-box {
+    background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+}
+
+.food-items { 
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 20px;
+    justify-content: center; /* Center the food items horizontally */
+    padding: 20px 1px 0px 80px; /* Add padding */
+    background-color: transparent; /* Remove background color */
+}
+
+.food-item {
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Make the border radius round */
+    padding: 10px;
+    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+    overflow: hidden; /* Hide overflowing content */
+}
+
+.food-item:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.food-item img {
+    width: 85%;
+    height: 60%;
+    object-fit: cover;
+    border-radius: 10px; /* Make the image round */
+    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.food-item:hover img {
+    transform: scale(1.1); /* Slightly enlarge image on hover */
+}
+
+.food-item h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.food-item p {
+    margin: 5px 0;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-controls button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 5px;
+}
+
+.quantity-controls button:hover {
+    background-color: #45a049;
+}
+
+.quantity {
+    width: 50px;
+    text-align: center;
+}
+
+.order-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.order-button:hover {
+    background-color: #45a049;
+}
+
+/* Adjust for only three items in each row */
+@media (min-width: 900px) {
+    .food-items {
+        grid-template-columns: repeat(3, 1fr); /* Change to three columns */
+    }
+}
+
+marquee {
+
+     width: 100%;
+    padding: 5px 10px;
+    background-color:lightseagreen;
+    color: white;
+}

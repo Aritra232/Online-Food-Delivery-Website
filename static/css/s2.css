@@ -1,0 +1,21 @@
+.container {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.order-summary {
+    margin-top: 20px;
+}
+
+#customerAddress textarea {
+    width: 100%;
+}
+
+#paymentOptions {
+    margin-top: 20px;
+}
+
+#confirmOrderBtn {
+    margin-top: 20px;
+}

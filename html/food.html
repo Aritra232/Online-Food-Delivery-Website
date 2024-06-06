@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery App</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="http://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+    
+</head>
+<body>
+    <marquee>Welcome to BhromonGhuri Food Delivery App | 10% Discount for creating an account and logging in</marquee>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+
+    <!-- Location Modal -->
+    <div id="userLocation">
+        {% if not location_submitted %}
+        <!-- The Modal (displayed if location has not been submitted) -->
+        <div id="locationModal" class="modal" style="display:block;">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <input type="text" name="address" placeholder="House Address" required>
+                    <input type="text" name="area" placeholder="Area" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <!-- Show location and restaurant data if submitted -->
+        <div class="address-info">
+            <p>Your current location: {{ location.address }}, {{ location.area }}</p>
+        </div>
+
+        <!-- Search bar -->
+        <div class="container">
+            <div class="logo">
+                <img src="/static/image/b2.jpg" alt="BhromonGhuri Logo">
+            </div>
+
+            <h1>BhromonGhuri Delivery App</h1>
+            <div class="search-bar">
+                <input type="text" id="restaurantSearch" placeholder="Search for restaurants...">
+            </div>
+            <div class="swiper-container">
+                <div class="swiper-wrapper" id="restaurantList">
+                    {% if restaurants %}
+                        {% for restaurant in restaurants %}
+                            <div class="swiper-slide">
+                                <div class="restaurant" data-id="{{ restaurant.id }}" data-name="{{ restaurant.name }}">
+                                    <a href="/restaurant/{{ restaurant.id }}/">
+                                        <img src="{{ restaurant.picture.url }}" alt="{{ restaurant.name }}">
+                                        <h3>{{ restaurant.name }}</h3>
+                                        <p>Rating: {{ restaurant.rating }}</p>
+                                        <p>Criteria: {{ restaurant.criteria }}</p>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No restaurants found in your area.</p>
+                    {% endif %}
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <div class="food-items" style="display: none;">
+            <!-- Food items will be displayed here -->
+        </div>
+        {% endif %}
+    </div>
+
+    <div id="google_element" align="right"></div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/modal.js"></script>
+
+    <script>
+        // Initialize Swiper
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 'auto',
+            spaceBetween: 20,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+
+        // JavaScript for search functionality
+        document.getElementById('restaurantSearch').addEventListener('input', function() {
+            var filter = this.value.toLowerCase();
+            var restaurantList = document.getElementById('restaurantList');
+            var restaurants = restaurantList.getElementsByClassName('restaurant');
+            for (var i = 0; i < restaurants.length; i++) {
+                var restaurantName = restaurants[i].getAttribute('data-name').toLowerCase();
+                if (restaurantName.includes(filter)) {
+                    restaurants[i].parentElement.style.display = '';
+                } else {
+                    restaurants[i].parentElement.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+/*.container {
+    max-width: 400px;
+    margin: 15px auto;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}*/
+
+h1, h2 {
+    text-align: center;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo img {
+    max-width: 100px;
+    height: auto;
+}
+
+.item-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
+.item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.cart {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.cart ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cart button:hover {
+    background-color: #0056b3;
+}
+
+.back-to-home, .back-to-restaurant {
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.back-to-home:hover, .back-to-restaurant:hover {
+    text-decoration: underline;
+}
+
+/* Specific styles for checkout page */
+.cart-items {
+    margin-bottom: 20px;
+}
+
+.summary {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#confirmOrderBtn, #placeOrderBtn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#confirmOrderBtn:hover, #placeOrderBtn:hover {
+    background-color: #0056b3;
+}
+
+/* Specific styles for confirmation page */
+.order-summary {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+marquee {
+    width: 100%;
+    padding: 5px 10px;
+    margin-bottom: 0px;
+    background-color:lightseagreen;
+}
+
+.row::after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+.address-info {
+    width: 200px;
+    position: fixed;
+    left: 10px;
+    top: 100px;
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.restaurant {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.restaurant:hover {
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+.restaurants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-left: 220px;
+}
+
+.restaurant {
+    flex: 1 1 200px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* CSS for search bar */
+.search-bar {
+    margin: 20px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.search-bar input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+/* Additional styling for the restaurant list */
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.restaurant {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.restaurant img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* Swiper Slider Styles */
+.swiper-container {
+    width: 100%;
+    padding-top: 50px; /* Adjust according to your need */
+    padding-bottom: 50px; /* Adjust according to your need */
+}
+
+.swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.swiper-pagination {
+    position: relative;
+    bottom: 10px;
+}
+
+/* Adjust Swiper Pagination Styles as needed */
+.swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: #000;
+    opacity: 0.5;
+    margin: 0 5px;
+}
+
+.swiper-pagination-bullet-active {
+    background: #fff;
+    opacity: 1;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-image: url("/static/image/b2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+.container {
+    max-width: 400px;
+    margin: 15px auto;
+    padding: 15px;
+    /* Set background color with transparency */
+    background-color: rgba(255, 255, 255, 0.8); /* Adjust the last value (0.8) to control transparency */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

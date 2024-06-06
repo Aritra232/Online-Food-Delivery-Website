@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary and Payment</title>
+    <link rel="stylesheet" href="/static/css/order.css">
+</head>
+<body>
+    <marquee>Welcome to BhromonGhuri Food Delivery App | 100 taka Discount for creating an account and logging in</marquee>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+    <div class="container">
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <p>Order ID: {{ order_id }}</p>
+            <!-- Display ordered items here -->
+            <ul id="orderItems">
+                {% for food_item, quantity in ordered_items.items %}
+                    <li>{{ food_item.name }} - Quantity: {{ quantity }}</li>
+                {% endfor %}
+            </ul>
+            <p>Discount :  $ 100 </p>
+        </div>
+        
+        <div class="payment-details">
+            <h2>Payment Details</h2>
+            <p>Total Price: ${{ total_bill }}</p>
+            <p>Delivery Price: $60</p>
+            <p>VAT: ${{ vat }}</p>
+            <p>Total Price with VAT: ${{ total_price_with_vat }}</p>
+            <p> Discount : $ 100</p>
+           <p>Subtotal:  ${{ subtotal }}</p>
+            <div id="customerAddress">
+                <p>Address:</p>
+                <textarea id="address" name="address" readonly>{% if user_location %}{{ user_location.address }}, {{ user_location.area }}{% endif %}</textarea>
+            </div>
+        </div>
+        
+        <div class="payment-options">
+            <h2>Payment Options</h2>
+            <form method="GET" action="{% url 'confirmation' order_id=order_id %}">
+                {% csrf_token %}
+                <label for="cashPayment">
+                    <img src="https://c8.alamy.com/comp/2C2TW98/money-from-bangladesh-a-background-2C2TW98.jpg" width="100" height="50">
+                    <input type="radio" id="cashPayment" name="payment" value="cash">
+                    CASH Payment
+                </label><br>
+                <label for="onlinePayment">
+                    <img src="https://media1.thehungryjpeg.com/thumbs2/ori_3505927_91dd74fd6d2414b990ff68eb6f1c8294e63d0692_online-payment-transfer-mobile-pay-with-smartphone-e-banking-vector.jpg" width="100" height="50">
+                    <input type="radio" id="onlinePayment" name="payment" value="online">
+                    Online Payment
+                </label><br>
+                <div id="dynamicPaymentOptions" style="display: none;">
+                    <h4>Online Payment Options</h4>
+                    <label>
+                        <img src="https://ibtbd.net/wp-content/uploads/2017/08/BKash-Logo-English.jpg" width="100" height="50">
+                        <input type="radio" name="payment" value="bkash">
+                        BKash Payment
+                    </label><br>
+                    <label>
+                        <img src="http://www.risingbd.com/media/imgAll/2019April/bg/Nagad20190416163203.jpg" width="100" height="50">
+                        <input type="radio" name="payment" value="nagad">
+                        নগদ
+                    </label><br>
+                    <label>
+                        <img src="https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo-1992-2000.png" width="100" height="50">
+                        <input type="radio" name="payment" value="visa">
+                        Visa Card
+                    </label><br>
+                    <label>
+                        <img src="https://bestlistbd.com/wp-content/uploads/classified-listing/2021/06/56191305_1074649016065535_8893606934653960192_n-1.jpg" width="100" height="50">
+                        <input type="radio" name="payment" value="rocket">
+                        Rocket
+                    </label><br>
+                    <label>
+                        <img src="https://www.unepfi.org/wordpress/wp-content/uploads/2022/09/City-Logo-English-Without-MSOM.png" width="100" height="50">
+                        <input type="radio" name="payment" value="citybank">
+                        City Bank
+                    </label><br>
+                </div>
+                <div class="payment-button">
+                    <label for="number" class="green">Number </label>
+                    <input type="text" id="number" name="number" placeholder="Enter phone / card number" required>
+                    <br>
+                    <br>
+                    <br>
+                    <button type="submit" id="confirmOrderBtn">Confirm Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('onlinePayment').addEventListener('change', function() {
+            var dynamicPaymentOptions = document.getElementById('dynamicPaymentOptions');
+            if (this.checked) {
+                dynamicPaymentOptions.style.display = 'block';
+            } else {
+                dynamicPaymentOptions.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
